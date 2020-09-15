@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KinectComputerVision.CVAlgorithms
 {
-    class CV_PCA2D
+    class CV_PCA2D_S
     {
 
 

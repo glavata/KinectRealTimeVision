@@ -91,7 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CVAlgorithms\CV_SVM.cs" />
-    <Compile Include="CVAlgorithms\CV_PCA2D.cs" />
+    <Compile Include="CVAlgorithms\CV_PCA2D_S.cs" />
     <Compile Include="CVFrames\CVFaceFrame.cs" />
     <Compile Include="CVFrames\CVFrame.cs" />
     <Compile Include="CVFrames\CVSkeletonFrame.cs" />
@@ -106,6 +106,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>

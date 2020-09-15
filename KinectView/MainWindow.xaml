@@ -11,7 +11,14 @@
         <Style x:Key="CommonStyle" TargetType="TextBox">
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="MinWidth" Value="40" />
+        </Style>
+        <Style x:Key="SettingsStyle" TargetType="TextBox">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0,0,55,0" />
         </Style>
     </Window.Resources>
 
@@ -56,7 +63,8 @@
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
-                            <Button x:Name="ButtonRecognition" Content="Start Face Recognition System"  MinHeight="60" IsEnabled="True" Grid.Row="0" Margin="0,5,0,0"/>
+                            <Button x:Name="buttonRecognition" Content="Start Face Recognition System"  MinHeight="60" IsEnabled="True" Grid.Row="0" Margin="0,5,0,0" Click="buttonRecog_Clicked"/>
+                            <Button x:Name="buttonManualCollection" Content="Start Manual Collection"  MinHeight="60" IsEnabled="True" Grid.Row="1" Margin="0,5,0,0"  Click="buttonManual_Clicked"/>
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -82,7 +90,6 @@
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
@@ -93,7 +100,7 @@
                         <Grid >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="4*"/>
-                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="1*"/>
@@ -104,8 +111,43 @@
                                 <RowDefinition Height="1*"/>
                                 <RowDefinition Height="1*"/>
                             </Grid.RowDefinitions>
-                            <Label Target="{Binding ElementName=angleMargin}" Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center">Face Angle Margin(5 to 35 deg)</Label>
-                            <TextBox Name="angleMargin"  HorizontalAlignment="Right" Width="50" Grid.Row="0" Grid.Column="1" ></TextBox>
+                            <Label Target="{Binding ElementName=angleMarginYaw}" Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center" Content="Face Angle Margin - Yaw"/>
+                            <Label Target="{Binding ElementName=angleMarginYaw}" FontSize="20" Grid.Row="0"  Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" Content="±" HorizontalContentAlignment="Stretch"  HorizontalAlignment="Stretch" Margin="10,0,0,0" Height="41"/>
+                            <Label Target="{Binding ElementName=angleMarginYaw}" FontSize="20" Grid.Row="0"  Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" Content="deg" HorizontalContentAlignment="Stretch"  HorizontalAlignment="Stretch" Margin="98,0,0,0" Height="41"/>
+                            <TextBox Name="angleMarginYaw"  HorizontalAlignment="Right" Width="50" Grid.Row="0" Grid.Column="1"  Style="{StaticResource SettingsStyle}" >30</TextBox>
+
+                            <Label Target="{Binding ElementName=angleMarginPitch}" Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center" Content="Face Angle Margin - Pitch"/>
+                            <Label Target="{Binding ElementName=angleMarginPitch}" FontSize="20" Grid.Row="1"  Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" Content="±" HorizontalContentAlignment="Stretch"  HorizontalAlignment="Stretch" Margin="10,0,0,0" Height="41"/>
+                            <Label Target="{Binding ElementName=angleMarginPitch}" FontSize="20" Grid.Row="1"  Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" Content="deg" HorizontalContentAlignment="Stretch"  HorizontalAlignment="Stretch" Margin="98,0,0,0" Height="41"/>
+                            <TextBox Name="angleMarginPitch"  HorizontalAlignment="Right" Width="50" Grid.Row="1" Grid.Column="1"  Style="{StaticResource SettingsStyle}" >30</TextBox>
+
+                            <Label Target="{Binding ElementName=angleMarginRoll}" Grid.Row="2"  Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center" Content="Face Angle Margin - Roll"/>
+                            <Label Target="{Binding ElementName=angleMarginRoll}" FontSize="20" Grid.Row="2"  Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" Content="±" HorizontalContentAlignment="Stretch"  HorizontalAlignment="Stretch" Margin="10,0,0,0" Height="41"/>
+                            <Label Target="{Binding ElementName=angleMarginRoll}" FontSize="20" Grid.Row="2"  Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" Content="deg" HorizontalContentAlignment="Stretch"  HorizontalAlignment="Stretch" Margin="98,0,0,0" Height="41"/>
+                            <TextBox Name="angleMarginRoll"  HorizontalAlignment="Right" Width="50" Grid.Row="2" Grid.Column="1"  Style="{StaticResource SettingsStyle}" >30</TextBox>
+
+                            <Label Target="{Binding ElementName=angleBinSize}" Grid.Row="3"  Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center" Content="Face Angle Bin Size"/>
+                            <Label Target="{Binding ElementName=angleBinSize}" FontSize="20" Grid.Row="3"  Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" Content="±" HorizontalContentAlignment="Stretch"  HorizontalAlignment="Stretch" Margin="10,0,0,0" Height="41"/>
+                            <Label Target="{Binding ElementName=angleBinSize}" FontSize="20" Grid.Row="3"  Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" Content="deg" HorizontalContentAlignment="Stretch"  HorizontalAlignment="Stretch" Margin="98,0,0,0" Height="41"/>
+                            <TextBox Name="angleBinSize" HorizontalAlignment="Right" Width="50" Grid.Row="3" Grid.Column="1" Style="{StaticResource SettingsStyle}" >5</TextBox>
+
+                            <Label Target="{Binding ElementName=folderPersonSeparate}" Grid.Row="4"  Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center" Content="Separate folder for person"/>
+                            <CheckBox  x:Name="folderPersonSeparate"  Grid.Row="4"  Grid.Column="1" Content="" IsChecked="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="56,6,62,4" >
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="2" ScaleY="2" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+
+                            <Label Target="{Binding ElementName=folderAngleBinSeparate}" Grid.Row="5"  Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center" Content="Separate folder for angle bin"/>
+                            <CheckBox  x:Name="folderAngleBinSeparate"  Grid.Row="5"  Grid.Column="1" Content="" IsChecked="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="56,6,62,4" >
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="2" ScaleY="2" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+
+                            <Label Target="{Binding ElementName=manualCollectionDir}" Grid.Row="6"  Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center" Content="Directory for manual collection"/>
+                            <TextBox Name="manualCollectionDir"   Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource SettingsStyle}" Margin="0">manual</TextBox>
+
                         </Grid>
                     </GroupBox>
                 </Grid>

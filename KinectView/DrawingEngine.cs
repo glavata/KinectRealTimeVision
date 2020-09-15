@@ -89,7 +89,7 @@ namespace KinectView
             
             foreach (var body in bodies)
             {
-                if (body.IsTracked)
+                if (body != null && body.IsTracked)
                 {
                     DrawSkeleton(body, colorIndex++);
                 }

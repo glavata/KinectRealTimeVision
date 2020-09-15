@@ -16,15 +16,14 @@ namespace KinectView
     /// </summary>
     public partial class MainWindow : Window
     {
-        private WriteableBitmap _bitmapColor;
-        private WriteableBitmap _bitmapDepth;
+        private WriteableBitmap _bitmapColor, _bitmapDepth;
         private DrawingEngine drawEngine;
         private KinectSensor _sensor;
-        private int frameWidthC;
-        private int frameHeightC;
-        private int frameWidthD;
-        private int frameHeightD;
+        private int frameWidthC, frameHeightC, frameWidthD, frameHeightD;
         private FrameController controller;
+        private bool manualCollectionStarted = false;
+        private bool recogSystemStarted = false;
+
 
         public MainWindow(FrameController controller)
         {
@@ -126,6 +125,32 @@ namespace KinectView
             }
         }
 
+
+        private void buttonRecog_Clicked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void buttonManual_Clicked(object sender, RoutedEventArgs e)
+        {
+            var buttonMan = (Button)sender;
+            
+            if(!manualCollectionStarted)
+            {
+
+                this.buttonRecognition.IsEnabled = false;
+            }
+            else
+            {
+                this.buttonRecognition.IsEnabled = true;
+            }
+
+            this.controller.UpdateSetting("ManualFrameCollection", !manualCollectionStarted);
+
+            manualCollectionStarted = !manualCollectionStarted;
+
+
+        }
 
     }
 }
