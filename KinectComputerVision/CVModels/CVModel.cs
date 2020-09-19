@@ -8,7 +8,10 @@ using System.Threading.Tasks;
 
 namespace KinectComputerVision
 {
-
+    public enum CVModelType
+    {
+        PCA_SVM
+    }
 
     public abstract class CVModel
     {

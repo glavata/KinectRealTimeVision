@@ -49,7 +49,7 @@ namespace KinectComputerVision
 
             this.settings = Settings.Instance();
             this.db = new Database();
-            //this.recModel = Database.LoadModel(CVModelType.PCA_SVM);
+            this.recModel = Database.LoadModel(CVModelType.PCA_SVM);
 
         }
 

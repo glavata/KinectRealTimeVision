@@ -6,11 +6,47 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using Emgu.CV;
+using Emgu.CV.Structure;
+
+using System.Runtime.Remoting.Messaging;
+using System.Windows.Media.Imaging;
+using System.Windows.Input;
 
 namespace KinectComputerVision
 {
     public static class Utilities
     {
+
+        public static Mat BitmapToMat(Bitmap bmp, bool gray = false)
+        {
+            Mat result;
+
+            if (gray)
+            {
+                Image<Gray, byte> res = bmp.ToImage<Gray, byte>();
+                result = res.Mat;
+            }
+            else
+            {
+                Image<Rgb, byte> res = bmp.ToImage<Rgb, byte>();
+                result = res.Mat;
+            }
+
+            return result;
+        }
+
+        public static List<Mat> BitmapsToMat(IList<Bitmap> list, bool gray = false)
+        {
+            int count = list.Count();
+            List<Mat> res = new List<Mat>(count);
+            for(int i = 0; i < count; i++)
+            {
+                Mat m = BitmapToMat(list[i], gray);
+                res[i] = m;
+            }
+            return res;
+        }
 
         public static Bitmap CropFaceBitmap(IReadOnlyList<CameraSpacePoint> points, CoordinateMapper mapper, byte[] pixels, bool grayScale)
         {
