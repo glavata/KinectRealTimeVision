@@ -14,21 +14,97 @@ namespace KinectComputerVision
     }
 
 
-    public static class Database
+    public class Database
     {
-        private static SQLiteConnection sql_con;
-        private static SQLiteCommand sql_cmd;
-        private static SQLiteDataAdapter DB;
+        private SQLiteConnection sql_con;
+        private SQLiteCommand sql_cmd;
+        private SQLiteDataAdapter DB;
 
-        private static void SetConnection()
+
+        public Database()
         {
-            sql_con = new SQLiteConnection
-                ("Data Source=cv_db.db;Version=3;New=False;Compress=True;");
+            var sqlite = new SQLiteConnection("Data Source=G:\\project\\KinectRealTimeVision\\KinectComputerVision\\bin\\Debug\\x86\\database\\current.sqlite");
+
+            this.sql_con = sqlite;
+            this.CreateDBStructure();
         }
 
-        public static void ExecuteQuery(string txtQuery)
+        private void CreateDBStructure()
         {
-            SetConnection();
+            sql_con.Open();
+
+            string sql = @"BEGIN TRANSACTION; 
+            CREATE TABLE IF NOT EXISTS 'classifier'(
+                'id'    INTEGER NOT NULL UNIQUE,
+                'type_id'   INTEGER NOT NULL DEFAULT 0,
+                'trained'   INTEGER NOT NULL DEFAULT 0,
+                PRIMARY KEY('id' AUTOINCREMENT)
+            );
+            CREATE TABLE IF NOT EXISTS 'preprocessor'(
+                'id'    INTEGER NOT NULL UNIQUE,
+                'type_id'   INTEGER NOT NULL DEFAULT 0,
+                'trained'   INTEGER NOT NULL DEFAULT 0,
+                PRIMARY KEY('id' AUTOINCREMENT)
+            );
+            CREATE TABLE IF NOT EXISTS 'sub_prepro'(
+                'id'    INTEGER NOT NULL UNIQUE,
+                'prepro_id' INTEGER NOT NULL,
+                'data'  BLOB NOT NULL,
+                PRIMARY KEY('id' AUTOINCREMENT)
+            );
+            CREATE TABLE IF NOT EXISTS 'cv_frame'(
+                'id'    INTEGER NOT NULL UNIQUE,
+                'type_id'   INTEGER NOT NULL,
+                'data'  BLOB NOT NULL,
+                'cla_id'    INTEGER NOT NULL,
+                'pre_id'    INTEGER NOT NULL,
+                'label' INTEGER NOT NULL,
+                PRIMARY KEY('id' AUTOINCREMENT)
+            );
+            CREATE TABLE IF NOT EXISTS 'person'(
+                'id'    INTEGER NOT NULL UNIQUE,
+                'cla_id'    INTEGER NOT NULL,
+                'pre_id'    INTEGER NOT NULL,
+                'name'  TEXT NOT NULL UNIQUE,
+                'label' INTEGER NOT NULL,
+                'timestamp' INTEGER NOT NULL DEFAULT 0,
+                PRIMARY KEY('id' AUTOINCREMENT)
+            );
+            CREATE TABLE IF NOT EXISTS 'sub_classi'(
+                'id'    INTEGER NOT NULL UNIQUE,
+                'classi_id' INTEGER NOT NULL,
+                'data'  BLOB NOT NULL,
+                PRIMARY KEY('id' AUTOINCREMENT)
+            );
+            CREATE TABLE IF NOT EXISTS 'settings'(
+                'id'    INTEGER NOT NULL UNIQUE,
+                'key'   TEXT NOT NULL,
+                'value' TEXT NOT NULL,
+                PRIMARY KEY('id' AUTOINCREMENT)
+            );
+            CREATE TABLE IF NOT EXISTS 'settings_classif'(
+                'id'    INTEGER NOT NULL UNIQUE,
+                'cla_id'    INTEGER NOT NULL,
+                'set_id'    INTEGER NOT NULL,
+                PRIMARY KEY('id' AUTOINCREMENT)
+            );
+            CREATE TABLE IF NOT EXISTS 'settings_prepro'(
+                'id'    INTEGER NOT NULL UNIQUE,
+                'pre_id'    INTEGER NOT NULL,
+                'set_id'    INTEGER NOT NULL,
+                PRIMARY KEY('id' AUTOINCREMENT)
+            );
+            COMMIT;";
+
+            SQLiteCommand command = new SQLiteCommand(sql, sql_con);
+            command.ExecuteNonQuery();
+
+        }
+
+
+    
+        public void ExecuteQuery(string txtQuery)
+        {
             sql_con.Open();
             sql_cmd = sql_con.CreateCommand();
             sql_cmd.CommandText = txtQuery;

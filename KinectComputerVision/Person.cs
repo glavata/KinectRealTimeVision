@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace KinectComputerVision
 {
-    enum PersonStatus
+    public enum PersonStatus
     {
 
         Recognizing,
@@ -18,7 +18,7 @@ namespace KinectComputerVision
         Trained
     }
 
-    class Person
+    public class Person
     {
         public ulong TrackingId {get; set;} = 0;
 

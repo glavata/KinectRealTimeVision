@@ -11,7 +11,7 @@ namespace KinectComputerVision.CVFrames
 {
 
 
-    class CVFaceFrame : CVFrame
+    public class CVFaceFrame : CVFrame
     {
         public ulong TrackingId { get; set; } = 0;
         public FaceAngleEuler FaceAngleEuler { get; set; }

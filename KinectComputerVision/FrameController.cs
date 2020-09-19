@@ -29,6 +29,7 @@ namespace KinectComputerVision
 
         private CVModel recModel;
 
+        private Database db;
 
         public FrameController()
         {
@@ -47,6 +48,7 @@ namespace KinectComputerVision
             this.people = new Person[Sensor.BodyFrameSource.BodyCount];
 
             this.settings = Settings.Instance();
+            this.db = new Database();
             //this.recModel = Database.LoadModel(CVModelType.PCA_SVM);
 
         }
@@ -65,10 +67,12 @@ namespace KinectComputerVision
                         this.people[i] = new Person(eventArgs.Faces[i].TrackingId);
                     }
 
-                    if ((bool)this.settings.GetSettingValue("General", "ManualFrameCollection"))
-                    {
-                        Task.Factory.StartNew(() => ManualFrameSave(eventArgs.Faces[i], Sensor.CoordinateMapper, eventArgs.FramePixels));
-                    }
+                    Task.Factory.StartNew(() => this.UpdateDatabase(this.people[i], eventArgs.Faces[i], Sensor.CoordinateMapper, eventArgs.FramePixels));
+
+                    //if ((bool)this.settings.GetSettingValue("General", "ManualFrameCollection"))
+                    //{
+                    //    Task.Factory.StartNew(() => ManualFrameSave(eventArgs.Faces[i], Sensor.CoordinateMapper, eventArgs.FramePixels));
+                    //}
 
                     //CVFaceFrame faceFrame = new CVFaceFrame(eventArgs.Faces[i], this.Sensor.CoordinateMapper, eventArgs.FramePixels);
                     //this.people[i].Update(faceFrame, this.recModel);
@@ -80,6 +84,11 @@ namespace KinectComputerVision
             OnFrameReceived?.Invoke(this, eventArgs);
         }
 
+
+        public void UpdateDatabase(Person person, Face face, CoordinateMapper mapper, byte[] pixels)
+        {
+
+        }
 
         public void ChangeFrameType(FrameSourceTypes type)
         {

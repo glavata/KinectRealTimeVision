@@ -150,6 +150,11 @@
 
                         </Grid>
                     </GroupBox>
+                    <GroupBox x:Name="gr_FaceRec" Header="Facial Recognition"  Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Padding="10,10,10,10">
+                        <Grid>
+                            
+                        </Grid>
+                    </GroupBox>
                 </Grid>
             </TabItem>
 
